@@ -4,15 +4,17 @@ namespace App\Controller;
 
 
 use App\Entity\Interviewer;
-use App\Entity\RepeatableInterviewerSlot;
 use App\Tests\BaseTestCase;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class RepeatableInterviewerSlotControllerTest extends BaseTestCase
 {
     public function testCreateRepeatableInterviewerSlots____when_Creating_New_RepeatableInterviewerSlots____RepeatableInterviewerSlots_Are_Created_And_Returned_With_Correct_Response_Status()
     {
         $interviewer = $this->createTestInterviewer('Philipp');
-        $this->assertTrue($interviewer instanceof Interviewer);
+        if (!$interviewer instanceof Interviewer) {
+            $this->fail($interviewer);
+        }
 
         $repeatableSlots = [
             ['day_number' => 1, 'start_time' => '09:00 AM'],

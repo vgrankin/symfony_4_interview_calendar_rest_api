@@ -36,13 +36,36 @@ class BaseTestCase extends KernelTestCase
             ->get('doctrine')
             ->getManager();
 
+
         $this->client = new \GuzzleHttp\Client([
             'base_uri' => 'http://localhost:8000/api/',
             'exceptions' => false
         ]);
+
+        $this->truncateTables();
     }
 
-    protected function createTestInterviewer($name)
+    private function truncateTables()
+    {
+        $entityManager = $this->em;
+        $connection = $entityManager->getConnection();
+        $connection->getConfiguration()->setSQLLogger(null);
+        $connection->prepare("SET FOREIGN_KEY_CHECKS = 0;")->execute();
+
+        $schemaManager = $connection->getSchemaManager();
+        $tables = $schemaManager->listTables();
+        $query = '';
+        foreach ($tables as $table) {
+            $name = $table->getName();
+            $query .= 'TRUNCATE ' . $name . ';';
+        }
+        $connection->executeQuery($query, array(), array());
+
+        $entityManager->getConnection()->prepare("SET FOREIGN_KEY_CHECKS = 1;")->execute();
+    }
+
+    protected
+    function createTestInterviewer($name)
     {
         $interviewer = new Interviewer();
         $interviewer->setName($name);
@@ -56,7 +79,8 @@ class BaseTestCase extends KernelTestCase
         }
     }
 
-    protected function getPrivateContainer()
+    protected
+    function getPrivateContainer()
     {
         self::bootKernel();
         // returns the real and unchanged service container
@@ -66,8 +90,10 @@ class BaseTestCase extends KernelTestCase
         return $container;
     }
 
-    protected function tearDown()
+    protected
+    function tearDown()
     {
+        $this->truncateTables();
         parent::tearDown();
     }
 }
