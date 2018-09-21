@@ -25,7 +25,7 @@ class Interviewer
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\RepeatableInterviewerSlot", mappedBy="interviewer")
-     * @ORM\OrderBy({"day"="ASC", "startTime"="ASC"})
+     * @ORM\OrderBy({"weekday"="ASC", "hour"="ASC"})
      */
     private $repeatableInterviewerSlots;
 

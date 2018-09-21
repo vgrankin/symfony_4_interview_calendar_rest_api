@@ -16,7 +16,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class RepeatableInterviewerSlot
 {
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\RepeatableInterviewerSlot", inversedBy="repeatableInterviewerSlots")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Interviewer", inversedBy="repeatableInterviewerSlots")
      * @ORM\JoinColumn(nullable=false)
      */
     private $interviewer;

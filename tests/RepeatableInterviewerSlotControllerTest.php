@@ -24,31 +24,68 @@ class RepeatableInterviewerSlotControllerTest extends BaseTestCase
             ['day_number' => 2, 'start_time' => '04:00 PM'],
             ['day_number' => 4, 'start_time' => '01:00 PM'],
             ['day_number' => 5, 'start_time' => '12:00 AM'],
-            ['day_number' => 5, 'start_time' => '15:00 AM'],
-            ['day_number' => 5, 'start_time' => '18:00 PM'],
+            ['day_number' => 5, 'start_time' => '12:00 PM'],
+            ['day_number' => 5, 'start_time' => '05:00 PM'],
         ];
         $data = [
             'interviewer_id' => $interviewer->getId(),
-            'repeatable_slots' => $repeatableSlots
+            'repeatable_interviewer_slots' => $repeatableSlots
         ];
 
         $response = $this->client->post("repeatable-interviewer-slots", [
             'body' => json_encode($data)
         ]);
         $responseData = json_decode($response->getBody(), true);
+
         $this->assertEquals(JsonResponse::HTTP_CREATED, $response->getStatusCode());
         $responseData = json_decode($response->getBody(), true);
         $this->assertArrayHasKey("data", $responseData);
-        $this->assertArrayHasKey("interviewer_id", $responseData['data']);
-        $this->assertArrayHasKey("repeatable_intervirwer_slots", $responseData['data']);
+        $this->assertArrayHasKey("repeatable_interviewer_slots", $responseData['data']);
 
         // get just created repeatable interviewer slots
         $container = $this->getPrivateContainer();
         $interviewer = $container->get('doctrine')
             ->getRepository(Interviewer::class)
-            ->find((int)$responseData['data']['interviewer_id']);
-        $slots = $interviewer->getRepeatableInterviewerSlots();
+            ->find((int)$responseData['data']["repeatable_interviewer_slots"][0]['interviewer_id']);
+        $arr = $interviewer->getRepeatableInterviewerSlots();
+        $this->assertEquals(sizeof($repeatableSlots), sizeof($arr));
 
-        print_r($slots);
+        $slots = [];
+        foreach ($arr as $slot)
+        {
+            $slots[] = [
+                'id' => $slot->getId(),
+                'interviewer_id' => $slot->getInterviewer()->getId(),
+                'day_number' => $slot->getWeekday(),
+                'start_time' => $slot->getHour()
+            ];
+        }
+
+        // checking first 5 records data having ids 1 to 5
+
+        $this->assertEquals(1, $responseData['data']["repeatable_interviewer_slots"][0]['id']);
+        $this->assertEquals($data['interviewer_id'], $slots[0]['interviewer_id']);
+        $this->assertEquals(1, $slots[0]['day_number']);
+        $this->assertEquals(9, $slots[0]['start_time']);
+
+        $this->assertEquals(2, $responseData['data']["repeatable_interviewer_slots"][1]['id']);
+        $this->assertEquals($data['interviewer_id'], $slots[1]['interviewer_id']);
+        $this->assertEquals(1, $slots[1]['day_number']);
+        $this->assertEquals(10, $slots[1]['start_time']);
+
+        $this->assertEquals(3, $responseData['data']["repeatable_interviewer_slots"][2]['id']);
+        $this->assertEquals($data['interviewer_id'], $slots[2]['interviewer_id']);
+        $this->assertEquals(1, $slots[2]['day_number']);
+        $this->assertEquals(11, $slots[2]['start_time']);
+
+        $this->assertEquals(4, $responseData['data']["repeatable_interviewer_slots"][3]['id']);
+        $this->assertEquals($data['interviewer_id'], $slots[3]['interviewer_id']);
+        $this->assertEquals(2, $slots[3]['day_number']);
+        $this->assertEquals(7, $slots[3]['start_time']);
+
+        $this->assertEquals(5, $responseData['data']["repeatable_interviewer_slots"][4]['id']);
+        $this->assertEquals($data['interviewer_id'], $slots[4]['interviewer_id']);
+        $this->assertEquals(2, $slots[4]['day_number']);
+        $this->assertEquals(16, $slots[4]['start_time']);
     }
 }
