@@ -91,6 +91,19 @@ class BaseTestCase extends KernelTestCase
         return $slots;
     }
 
+    protected function createTestSingleInterviewerSlots($data)
+    {
+        $container = $this->getPrivateContainer();
+        $service = $container
+            ->get('App\Service\SingleInterviewerSlotService');
+        $slots = $service->createSingleInterviewerSlots($data);
+        if (!is_array($slots)) {
+            $this->fail("Unable to create test single interviewer slots!");
+        }
+
+        return $slots;
+    }
+
     protected function getPrivateContainer()
     {
         self::bootKernel();

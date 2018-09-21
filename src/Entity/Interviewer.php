@@ -31,7 +31,7 @@ class Interviewer
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\SingleInterviewerSlot", mappedBy="interviewer")
-     * @ORM\OrderBy({"date"="ASC", "startTime"="ASC"})
+     * @ORM\OrderBy({"date"="ASC"})
      */
     private $singleInterviewerSlots;
 

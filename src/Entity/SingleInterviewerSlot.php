@@ -16,7 +16,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class SingleInterviewerSlot
 {
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\SingleInterviewerSlot", inversedBy="singleInterviewerSlots")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Interviewer", inversedBy="singleInterviewerSlots")
      * @ORM\JoinColumn(nullable=false)
      */
     private $interviewer;
@@ -70,15 +70,15 @@ class SingleInterviewerSlot
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
-    public function getIsBlockedSlot(): boolean
+    public function getIsBlockedSlot(): bool
     {
         return $this->isBlockedSlot;
     }
 
     /**
-     * @param boolean $isBlockedSlot
+     * @param bool $isBlockedSlot
      */
     public function setIsBlockedSlot($isBlockedSlot): void
     {
@@ -94,10 +94,12 @@ class SingleInterviewerSlot
     }
 
     /**
-     * @param \DateTime $date
+     * @param string $date
      */
     public function setDate($date): void
     {
+        $format = "Y-m-d H:i A";
+        $date = \DateTime::createFromFormat($format, $date);
         $this->date = $date;
     }
 }
