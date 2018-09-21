@@ -88,4 +88,25 @@ class RepeatableInterviewerSlotControllerTest extends BaseTestCase
         $this->assertEquals(2, $slots[4]['day_number']);
         $this->assertEquals(16, $slots[4]['start_time']);
     }
+
+    public function testDeleteRepeatableInterviewerSlot____when_Deleting_Existing_RepeatableInterviewerSlot____RepeatableInterviewerSlot_Is_Deleted_And_Status_204_Is_Returned()
+    {
+        $interviewer = $this->createTestInterviewer('Philipp');
+        if (!$interviewer instanceof Interviewer) {
+            $this->fail($interviewer);
+        }
+
+        $repeatableSlots = [
+            ['day_number' => 1, 'start_time' => '09:00 AM'],
+        ];
+        $data = [
+            'interviewer_id' => $interviewer->getId(),
+            'repeatable_interviewer_slots' => $repeatableSlots
+        ];
+
+        $slots = $this->createTestRepeatableInterviewerSlots($data);
+
+        $response = $this->client->delete("repeatable-interviewer-slot/{$slots[0]->getId()}", []);
+        $this->assertEquals(JsonResponse::HTTP_NO_CONTENT, $response->getStatusCode());
+    }
 }

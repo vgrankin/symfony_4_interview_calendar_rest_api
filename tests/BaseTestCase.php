@@ -64,8 +64,7 @@ class BaseTestCase extends KernelTestCase
         $entityManager->getConnection()->prepare("SET FOREIGN_KEY_CHECKS = 1;")->execute();
     }
 
-    protected
-    function createTestInterviewer($name)
+    protected function createTestInterviewer($name)
     {
         $interviewer = new Interviewer();
         $interviewer->setName($name);
@@ -79,8 +78,20 @@ class BaseTestCase extends KernelTestCase
         }
     }
 
-    protected
-    function getPrivateContainer()
+    protected function createTestRepeatableInterviewerSlots($data)
+    {
+        $container = $this->getPrivateContainer();
+        $service = $container
+            ->get('App\Service\RepeatableInterviewerSlotService');
+        $slots = $service->createRepeatableInterviewerSlots($data);
+        if (!is_array($slots)) {
+            $this->fail("Unable to create test repeatable interviewer slots!");
+        }
+
+        return $slots;
+    }
+
+    protected function getPrivateContainer()
     {
         self::bootKernel();
         // returns the real and unchanged service container
