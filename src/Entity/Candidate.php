@@ -36,7 +36,7 @@ class Candidate
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getId()
     {
@@ -44,7 +44,7 @@ class Candidate
     }
 
     /**
-     * @param mixed $id
+     * @param int $id
      */
     public function setId($id): void
     {
@@ -52,7 +52,7 @@ class Candidate
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getName()
     {
@@ -60,7 +60,7 @@ class Candidate
     }
 
     /**
-     * @param mixed $name
+     * @param string $name
      */
     public function setName($name): void
     {

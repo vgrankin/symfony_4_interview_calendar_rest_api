@@ -80,7 +80,7 @@ class CandidateSlotControllerTest extends BaseTestCase
 
     public function testDeleteCandidateSlot____when_Deleting_Existing_CandidateSlot____CandidateSlot_Is_Deleted_And_Status_204_Is_Returned()
     {
-        $candidate = $this->createTestCandidate('Philipp');
+        $candidate = $this->createTestCandidate('Carl');
         if (!$candidate instanceof Candidate) {
             $this->fail($candidate);
         }
