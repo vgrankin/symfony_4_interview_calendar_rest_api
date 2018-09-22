@@ -96,6 +96,15 @@ class CandidateSlotControllerTest extends BaseTestCase
         $slots = $this->createTestCandidateSlots($data);
 
         $response = $this->client->delete("candidate-slot/{$slots[0]->getId()}", []);
+
+        // get just created candidate slots (there should be none after deletion)
+        $container = $this->getPrivateContainer();
+        $candidate = $container->get('doctrine')
+            ->getRepository(Candidate::class)
+            ->find($candidate->getId());
+        $arr = $candidate->getCandidateSlots();
+        $this->assertEquals(0, sizeof($arr));
+
         $this->assertEquals(JsonResponse::HTTP_NO_CONTENT, $response->getStatusCode());
     }
 }

@@ -9,6 +9,7 @@ use App\Entity\Listing;
 use App\Entity\Period;
 use App\Entity\Section;
 use App\Entity\User;
+use App\Service\CandidateSlotService;
 use GuzzleHttp\Client;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -117,6 +118,19 @@ class BaseTestCase extends KernelTestCase
         } catch (\Exception $ex) {
             return "Unable to create candidate";
         }
+    }
+
+    protected function createTestCandidateSlots($data)
+    {
+        $container = $this->getPrivateContainer();
+        $service = $container
+            ->get(CandidateSlotService::class);
+        $slots = $service->createCandidateSlots($data);
+        if (!is_array($slots)) {
+            $this->fail("Unable to create test candidate slots!");
+        }
+
+        return $slots;
     }
 
     protected function getPrivateContainer()
