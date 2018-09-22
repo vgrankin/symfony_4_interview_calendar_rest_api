@@ -91,35 +91,6 @@ class CandidateSlotService extends BaseService
     }
 
     /**
-     * Remove candidate slot(s) by given data
-     *
-     * @param $data array which contains information about candidate slots to remove
-     *    $data = [
-     *      'candidate_slots' => (array) Array of candidate slot ids to remove. Required.
-     *    ]
-     *
-     *    Repeatable candidate slots structure example:
-     *      $data['candidate_slots'] = [1,2,4,6];
-     *
-     * @return bool|string True if slots were successfully deleted, error message otherwise
-     */
-    public function deleteCandidateSlots(array $data)
-    {
-        try {
-            foreach ($data['candidate_slots'] as $id) {
-                $slot = $this->em->getReference(CandidateSlot::class, $id);
-                $this->em->remove($slot);
-            }
-
-            $this->em->flush();
-
-            return True;
-        } catch (\Exception $ex) {
-            return "Unable to delete candidate slots";
-        }
-    }
-
-    /**
      * Remove candidate slot by given entity object
      *
      * @param CandidateSlot $singleCandidateSlot

@@ -96,35 +96,6 @@ class SingleInterviewerSlotService extends BaseService
     }
 
     /**
-     * Remove single interviewer slot(s) by given data
-     *
-     * @param $data array which contains information about single interviewer slots to remove
-     *    $data = [
-     *      'single_interviewer_slots' => (array) Array of single interviewer slot ids to remove. Required.
-     *    ]
-     *
-     *    Repeatable interviewer slots structure example:
-     *      $data['single_interviewer_slots'] = [1,2,4,6];
-     *
-     * @return bool|string True if slots were successfully deleted, error message otherwise
-     */
-    public function deleteSingleInterviewerSlots(array $data)
-    {
-        try {
-            foreach ($data['single_interviewer_slots'] as $id) {
-                $slot = $this->em->getReference(SingleInterviewerSlot::class, $id);
-                $this->em->remove($slot);
-            }
-
-            $this->em->flush();
-
-            return True;
-        } catch (\Exception $ex) {
-            return "Unable to delete single interviewer slots";
-        }
-    }
-
-    /**
      * Remove single interviewer slot by given entity object
      *
      * @param SingleInterviewerSlot $singleInterviewerSlot
