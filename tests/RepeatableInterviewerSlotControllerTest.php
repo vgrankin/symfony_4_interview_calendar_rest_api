@@ -109,4 +109,41 @@ class RepeatableInterviewerSlotControllerTest extends BaseTestCase
         $response = $this->client->delete("repeatable-interviewer-slot/{$slots[0]->getId()}", []);
         $this->assertEquals(JsonResponse::HTTP_NO_CONTENT, $response->getStatusCode());
     }
+
+    public function testDeleteRepeatableInterviewerSlots____when_Deleting_Existing_RepeatableInterviewerSlots____RepeatableInterviewerSlots_Are_Deleted_And_Status_204_Is_Returned()
+    {
+        $interviewer = $this->createTestInterviewer('Philipp');
+        if (!$interviewer instanceof Interviewer) {
+            $this->fail($interviewer);
+        }
+
+        $repeatableSlots = [
+            ['day_number' => 1, 'start_time' => '09:00 AM'],
+            ['day_number' => 2, 'start_time' => '09:00 AM'],
+        ];
+        $data = [
+            'interviewer_id' => $interviewer->getId(),
+            'repeatable_interviewer_slots' => $repeatableSlots
+        ];
+
+        $slots = $this->createTestRepeatableInterviewerSlots($data);
+
+        $data = [
+            'repeatable_interviewer_slots' => [$slots[0]->getId(), $slots[1]->getId()]
+        ];
+
+        $response = $this->client->delete("repeatable-interviewer-slots", [
+            'body' => json_encode($data)
+        ]);
+
+        // get remaining repeatable interviewer slots (there should be none after deletion)
+        $container = $this->getPrivateContainer();
+        $interviewer = $container->get('doctrine')
+            ->getRepository(Interviewer::class)
+            ->find($interviewer->getId());
+        $arr = $interviewer->getRepeatableInterviewerSlots();
+        $this->assertEquals(0, sizeof($arr));
+
+        $this->assertEquals(JsonResponse::HTTP_NO_CONTENT, $response->getStatusCode());
+    }
 }

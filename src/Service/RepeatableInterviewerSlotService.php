@@ -111,6 +111,23 @@ class RepeatableInterviewerSlotService extends BaseService
     }
 
     /**
+     * Remove repeatable interviewer slot by given entity object
+     *
+     * @param RepeatableInterviewerSlot $repeatableInterviewerSlot
+     * @return bool|string True if RepeatableInterviewerSlot was successfully deleted, error message otherwise
+     */
+    public function deleteRepeatableInterviewerSlot(RepeatableInterviewerSlot $repeatableInterviewerSlot)
+    {
+        try {
+            $this->em->remove($repeatableInterviewerSlot);
+            $this->em->flush();
+        } catch (\Exception $ex) {
+            return "Unable to remove repeatable interviewer slot";
+        }
+        return true;
+    }
+
+    /**
      * Remove repeatable interviewer slot(s) by given data
      *
      * @param $data array which contains information about repeatable interviewer slots to remove
@@ -137,22 +154,5 @@ class RepeatableInterviewerSlotService extends BaseService
         } catch (\Exception $ex) {
             return "Unable to delete repeatable interviewer slots";
         }
-    }
-
-    /**
-     * Remove repeatable interviewer slot by given entity object
-     *
-     * @param RepeatableInterviewerSlot $repeatableInterviewerSlot
-     * @return bool|string True if RepeatableInterviewerSlot was successfully deleted, error message otherwise
-     */
-    public function deleteRepeatableInterviewerSlot(RepeatableInterviewerSlot $repeatableInterviewerSlot)
-    {
-        try {
-            $this->em->remove($repeatableInterviewerSlot);
-            $this->em->flush();
-        } catch (\Exception $ex) {
-            return "Unable to remove repeatable interviewer slot";
-        }
-        return true;
     }
 }
