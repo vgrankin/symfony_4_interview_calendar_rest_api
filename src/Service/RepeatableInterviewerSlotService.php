@@ -126,33 +126,4 @@ class RepeatableInterviewerSlotService extends BaseService
         }
         return true;
     }
-
-    /**
-     * Remove repeatable interviewer slot(s) by given data
-     *
-     * @param $data array which contains information about repeatable interviewer slots to remove
-     *    $data = [
-     *      'repeatable_interviewer_slots' => (array) Array of repeatable interviewer slot ids to remove. Required.
-     *    ]
-     *
-     *    Repeatable interviewer slots structure example:
-     *      $data['repeatable_interviewer_slots'] = [1,2,4,6];
-     *
-     * @return bool|string True if slots were successfully deleted, error message otherwise
-     */
-    public function deleteRepeatableInterviewerSlots(array $data)
-    {
-        try {
-            foreach ($data['repeatable_interviewer_slots'] as $id) {
-                $slot = $this->em->getReference(RepeatableInterviewerSlot::class, $id);
-                $this->em->remove($slot);
-            }
-
-            $this->em->flush();
-
-            return True;
-        } catch (\Exception $ex) {
-            return "Unable to delete repeatable interviewer slots";
-        }
-    }
 }
