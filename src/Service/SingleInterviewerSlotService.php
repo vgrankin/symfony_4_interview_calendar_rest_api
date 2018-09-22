@@ -11,14 +11,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class SingleInterviewerSlotService extends BaseService
 {
-    private $timeConverterService;
-
-    public function __construct(EntityManagerInterface $em, TimeConverterService $timeConverterService)
-    {
-        $this->timeConverterService = $timeConverterService;
-        parent::__construct($em);
-    }
-
     /**
      * Create single interviewer slot(s) by given data
      *

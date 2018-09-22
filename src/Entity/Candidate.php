@@ -25,7 +25,7 @@ class Candidate
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\CandidateSlot", mappedBy="candidate")
-     * @ORM\OrderBy({"date"="ASC", "startTime"="ASC"})
+     * @ORM\OrderBy({"date"="ASC"})
      */
     private $candidateSlots;
 

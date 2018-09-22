@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 class CandidateSlot
 {
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\CandidateSlot", inversedBy="candidateSlots")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Candidate", inversedBy="candidateSlots")
      * @ORM\JoinColumn(nullable=false)
      */
     private $candidate;
@@ -69,10 +69,12 @@ class CandidateSlot
     }
 
     /**
-     * @param \DateTime $date
+     * @param string $date
      */
     public function setDate($date): void
     {
+        $format = "Y-m-d H:i A";
+        $date = \DateTime::createFromFormat($format, $date);
         $this->date = $date;
     }
 }

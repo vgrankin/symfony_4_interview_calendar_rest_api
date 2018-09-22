@@ -2,6 +2,7 @@
 
 namespace App\Tests;
 
+use App\Entity\Candidate;
 use App\Entity\City;
 use App\Entity\Interviewer;
 use App\Entity\Listing;
@@ -102,6 +103,20 @@ class BaseTestCase extends KernelTestCase
         }
 
         return $slots;
+    }
+
+    protected function createTestCandidate($name)
+    {
+        $candidate = new Candidate();
+        $candidate->setName($name);
+        try {
+            $this->em->persist($candidate);
+            $this->em->flush();
+
+            return $candidate;
+        } catch (\Exception $ex) {
+            return "Unable to create candidate";
+        }
     }
 
     protected function getPrivateContainer()
