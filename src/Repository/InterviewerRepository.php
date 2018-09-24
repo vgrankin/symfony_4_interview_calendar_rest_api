@@ -23,8 +23,8 @@ class InterviewerRepository extends EntityRepository
         $qb = $this->createQueryBuilder('i');
         if (sizeof($filter)) {
             if (isset($filter['interviewer-ids'])) {
-                $qb->andWhere('i.id IN (:interviewer-ids)')
-                    ->setParameter('interviewer-ids', implode(",", $filter['interviewer-ids']));
+                $qb->andWhere('i.id IN (:interviewer_ids)')
+                    ->setParameter('interviewer_ids', implode(",", $filter['interviewer-ids']));
             }
         }
 

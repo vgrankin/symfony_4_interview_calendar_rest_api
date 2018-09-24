@@ -18,19 +18,6 @@ class InterviewCalendarControllerTest extends BaseTestCase
 
         // create repeatable slots for Philipp
 
-        $repeatableSlots = [
-            ['day_number' => 1, 'start_time' => '09:00 AM'],
-            ['day_number' => 1, 'start_time' => '10:00 AM'],
-            ['day_number' => 1, 'start_time' => '11:00 AM'],
-
-            ['day_number' => 2, 'start_time' => '07:00 AM'],
-            ['day_number' => 2, 'start_time' => '04:00 PM'],
-            ['day_number' => 4, 'start_time' => '01:00 PM'],
-            ['day_number' => 5, 'start_time' => '12:00 AM'],
-            ['day_number' => 5, 'start_time' => '12:00 PM'],
-            ['day_number' => 5, 'start_time' => '05:00 PM'],
-        ];
-
         $repeatableSlots = [];
         for ($i = 1; $i <= 5; $i++)
         {
@@ -102,7 +89,7 @@ class InterviewCalendarControllerTest extends BaseTestCase
 
         $carlSlots = $this->createTestCandidateSlots($data);
 
-        $response = $this->client->get("interview-calendar/{$carl->getId()}");
+        $response = $this->client->get("interview-calendar/{$carl->getId()}?interviewer-ids={$philipp->getId()},{$sarah->getId()}");
         $responseData = json_decode($response->getBody(), true);
 
         $this->assertEquals(JsonResponse::HTTP_OK, $response->getStatusCode());
