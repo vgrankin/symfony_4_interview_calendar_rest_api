@@ -814,6 +814,6 @@ We can use POSTMAN to access all endpoints:
 - customize App\EventSubscriber to also support debug mode during development (to debug status 500 etc.) 
  (currently you need to manually go to processException() and just use "return;" on the first line of this method's body to avoid exception "prettyfying")
 - SSL (https connection)
-- there are many strings returned from services in case of various errors (see try/catch cases in ListingService.php for example). It will be probably better to convert these to exceptions instead.
+- there are many strings returned from services in case of various errors (see try/catch cases in services for example). It will be probably better to convert these to exceptions instead.
 
     
