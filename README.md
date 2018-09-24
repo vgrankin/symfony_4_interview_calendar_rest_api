@@ -810,7 +810,6 @@ We can use POSTMAN to access all endpoints:
     
 ## To improve this REST API you can implement:
 - authentication (JWT etc.)
-- pagination
 - customize App\EventSubscriber to also support debug mode during development (to debug status 500 etc.) 
  (currently you need to manually go to processException() and just use "return;" on the first line of this method's body to avoid exception "prettyfying")
 - SSL (https connection)
